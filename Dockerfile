@@ -23,10 +23,11 @@ RUN addgroup -g 1001 -S nodejs && \
 # Set working directory
 WORKDIR /app
 
-# Copy built application
+# Copy dependencies and source
 COPY --from=builder /app/node_modules ./node_modules
-COPY logistics-server.js ./
 COPY package*.json ./
+COPY src ./src
+COPY resources ./resources
 
 # Create necessary directories
 RUN mkdir -p /app/logs && \
@@ -43,4 +44,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000/healthz', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
 # Start the application
-CMD ["node", "logistics-server.js"]
+CMD ["node", "src/index.js"]

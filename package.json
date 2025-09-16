@@ -1,13 +1,13 @@
 {
   "name": "samsung-logistics-mcp-server",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Samsung C&T Logistics MCP Server for HVDC Project",
-  "main": "logistics-server.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node logistics-server.js",
-    "dev": "node --watch logistics-server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test",
     "health": "curl -f http://localhost:3000/healthz || exit 1",
     "docker:build": "docker build -t samsung-logistics-mcp .",
     "docker:run": "docker run -p 3000:3000 samsung-logistics-mcp",
@@ -24,7 +24,8 @@
   "author": "Samsung C&T Logistics Team",
   "license": "PROPRIETARY",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^0.5.0"
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "yaml": "^2.4.2"
   },
   "engines": {
     "node": ">=20.0.0"

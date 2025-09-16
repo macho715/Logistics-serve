@@ -1,6 +1,6 @@
 # Samsung Logistics MCP Server
 
-Samsung C&T Logistics MCP Server for HVDC Project - ADNOC·DSV Partnership
+Samsung C&T Logistics MCP Server for HVDC Project - ADNOC·DSV Partnership (v1.2.0)
 
 ## 🚀 Overview
 
@@ -19,9 +19,9 @@ This is a Model Context Protocol (MCP) server designed for Samsung C&T's logisti
 
 ### Core Tools
 - `health_ping` - MCP health readiness probe
-- `logi_master_invoice_audit` - OCR-based invoice audit with FANR/MOIAT compliance
-- `check_container_status` - ISO 6346 container tracking
-- `calculate_hvdc_shipping_cost` - HVDC shipping cost calculation
+- `logi_master_invoice_audit` - OCR-based invoice audit with FANR/MOIAT compliance, Incoterm & HS validation
+- `check_container_status` - ISO 6346 container tracking with deterministic voyage snapshots
+- `calculate_hvdc_shipping_cost` - HVDC shipping cost calculation with DEM/DET reserves
 - `logi_master_predict` - ETA/KPI prediction with deterministic algorithms
 - `logi_master_weather_tie` - Weather-tied logistics planning
 
@@ -89,10 +89,10 @@ terraform apply
 
 ```bash
 # Deploy application (Linux/Mac)
-./scripts/deploy.sh --environment prod --image-tag v1.1.0
+./scripts/deploy.sh --environment prod --image-tag v1.2.0
 
 # Deploy application (Windows)
-.\scripts\deploy.ps1 -Environment prod -ImageTag v1.1.0
+.\scripts\deploy.ps1 -Environment prod -ImageTag v1.2.0
 ```
 
 ## 📊 Monitoring
@@ -258,5 +258,5 @@ For support and questions:
 
 ---
 
-**Samsung C&T Logistics MCP Server v1.1.0**  
+**Samsung C&T Logistics MCP Server v1.2.0**  
 *HVDC Project - ADNOC·DSV Partnership*
