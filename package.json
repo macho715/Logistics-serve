@@ -1,0 +1,36 @@
+{
+  "name": "samsung-logistics-mcp-server",
+  "version": "1.1.0",
+  "description": "Samsung C&T Logistics MCP Server for HVDC Project",
+  "main": "logistics-server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node logistics-server.js",
+    "dev": "node --watch logistics-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "health": "curl -f http://localhost:3000/healthz || exit 1",
+    "docker:build": "docker build -t samsung-logistics-mcp .",
+    "docker:run": "docker run -p 3000:3000 samsung-logistics-mcp",
+    "docker:push": "docker tag samsung-logistics-mcp 123456789012.dkr.ecr.me-central-1.amazonaws.com/samsung-logistics-mcp:latest && docker push 123456789012.dkr.ecr.me-central-1.amazonaws.com/samsung-logistics-mcp:latest"
+  },
+  "keywords": [
+    "mcp",
+    "logistics",
+    "samsung",
+    "hvdc",
+    "adnoc",
+    "dsv"
+  ],
+  "author": "Samsung C&T Logistics Team",
+  "license": "PROPRIETARY",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samsung-ct/logistics-mcp-server.git"
+  }
+}
