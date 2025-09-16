@@ -25,11 +25,11 @@ resource "aws_ecs_cluster_capacity_providers" "main" {
   }
 }
 
-# CloudWatch Log Group
+# CloudWatch Log Group (KMS temporarily disabled for deployment)
 resource "aws_cloudwatch_log_group" "ecs" {
   name              = "/ecs/samsung-logistics-mcp"
   retention_in_days = var.log_retention_days
-  kms_key_id        = aws_kms_key.logistics.arn
+  # kms_key_id        = aws_kms_key.logistics.arn  # Temporarily disabled
 
   tags = {
     Name = "samsung-logistics-logs"
@@ -188,30 +188,25 @@ resource "aws_ecs_service" "main" {
   launch_type     = "FARGATE"
 
   # Use FARGATE_SPOT for cost optimization in non-prod
-  capacity_provider_strategy = var.environment == "prod" ? [] : [
-    {
+  dynamic "capacity_provider_strategy" {
+    for_each = var.environment == "prod" ? [] : [1]
+    content {
       capacity_provider = "FARGATE_SPOT"
       weight           = 100
       base             = 0
     }
-  ]
+  }
 
   network_configuration {
-    subnets          = var.private_subnets
+    subnets          = var.public_subnets
     security_groups  = [aws_security_group.ecs_tasks.id]
-    assign_public_ip = false
+    assign_public_ip = true
   }
 
   load_balancer {
     target_group_arn = aws_lb_target_group.ecs_tasks.arn
     container_name   = "samsung-logistics-mcp"
     container_port   = 3000
-  }
-
-  # Deployment configuration
-  deployment_configuration {
-    maximum_percent         = 200
-    minimum_healthy_percent = 50
   }
 
   # Prevent deployment conflicts with auto scaling
@@ -221,7 +216,8 @@ resource "aws_ecs_service" "main" {
 
   depends_on = [
     aws_lb_listener.https,
-    aws_lb_listener.http_fallback
+    aws_lb_listener.http_fallback,
+    aws_lb_listener.http
   ]
 
   tags = {

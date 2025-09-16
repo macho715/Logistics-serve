@@ -16,7 +16,7 @@ provider "aws" {
       Project     = "HVDC-Logistics"
       Environment = var.environment
       ManagedBy   = "Terraform"
-      Owner       = "Samsung-C&T"
+      Owner       = "Samsung-CT"
     }
   }
 }

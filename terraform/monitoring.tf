@@ -113,10 +113,10 @@ resource "aws_cloudwatch_metric_alarm" "ecs_service_health" {
   }
 }
 
-# SNS Topic for Alerts
+# SNS Topic for Alerts (KMS temporarily disabled for deployment)
 resource "aws_sns_topic" "alerts" {
   name = "samsung-logistics-alerts"
-  kms_master_key_id = aws_kms_key.logistics.arn
+  # kms_master_key_id = aws_kms_key.logistics.arn  # Temporarily disabled
 
   tags = {
     Name = "samsung-logistics-alerts"

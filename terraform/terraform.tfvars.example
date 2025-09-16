@@ -1,0 +1,31 @@
+# Terraform Variables for AWS Account 341056671376
+# Samsung Logistics MCP Server
+
+# AWS Configuration
+region = "me-central-1"
+environment = "prod"
+
+# VPC Configuration (Replace with your actual VPC and subnet IDs)
+vpc_id = "vpc-xxxxxxxxx"
+private_subnets = ["subnet-xxxxxxxxx", "subnet-yyyyyyyyy"]
+public_subnets = ["subnet-zzzzzzzzz", "subnet-aaaaaaaaa"]
+
+# ECR Image (Update with your ECR repository URI)
+ecr_image = "341056671376.dkr.ecr.me-central-1.amazonaws.com/samsung-logistics-mcp:latest"
+
+# Application Configuration
+cpu = 512
+memory = 1024
+desired_count = 2
+min_capacity = 1
+max_capacity = 10
+
+# Domain Configuration (Optional)
+app_domain = ""  # Leave empty if no custom domain
+enable_https = false  # Set to true if you have a custom domain
+
+# Compliance Configuration
+compliance_mode = ["FANR", "MOIAT"]
+
+# Log Configuration
+log_retention_days = 30

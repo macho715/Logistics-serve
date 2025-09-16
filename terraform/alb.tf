@@ -46,8 +46,9 @@ resource "aws_lb_target_group" "ecs_tasks" {
   }
 }
 
-# HTTP Listener (redirect to HTTPS)
+# HTTP Listener (redirect to HTTPS) - conditional creation
 resource "aws_lb_listener" "http" {
+  count             = var.enable_https && var.app_domain != "" ? 1 : 0
   load_balancer_arn = aws_lb.main.arn
   port              = "80"
   protocol          = "HTTP"
