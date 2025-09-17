@@ -1,0 +1,913 @@
+{
+  "version": 4,
+  "terraform_version": "1.13.2",
+  "serial": 85,
+  "lineage": "745206b0-b616-eeb4-8162-efa03b40fbba",
+  "outputs": {
+    "alb_arn": {
+      "value": "arn:aws:elasticloadbalancing:us-east-1:341056671376:loadbalancer/app/samsung-logistics-alb/0ce1885ac0c5458d",
+      "type": "string"
+    },
+    "alb_dns_name": {
+      "value": "samsung-logistics-alb-1856106909.us-east-1.elb.amazonaws.com",
+      "type": "string"
+    },
+    "alb_zone_id": {
+      "value": "Z35SXDOTRQ7X7K",
+      "type": "string"
+    },
+    "application_url": {
+      "value": "http://samsung-logistics-alb-1856106909.us-east-1.elb.amazonaws.com",
+      "type": "string"
+    },
+    "cloudwatch_dashboard_url": {
+      "value": "https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards:name=samsung-logistics-mcp-dashboard",
+      "type": "string"
+    },
+    "cloudwatch_log_group": {
+      "value": "/ecs/samsung-logistics-mcp",
+      "type": "string"
+    },
+    "cloudwatch_log_group_arn": {
+      "value": null,
+      "type": "string"
+    },
+    "ecs_cluster_arn": {
+      "value": "arn:aws:ecs:us-east-1:341056671376:cluster/samsung-logistics-cluster",
+      "type": "string"
+    },
+    "ecs_cluster_name": {
+      "value": "samsung-logistics-cluster",
+      "type": "string"
+    },
+    "ecs_service_arn": {
+      "value": null,
+      "type": "string"
+    },
+    "ecs_service_name": {
+      "value": "samsung-logistics-mcp-service",
+      "type": "string"
+    },
+    "health_check_url": {
+      "value": "http://samsung-logistics-alb-1856106909.us-east-1.elb.amazonaws.com/healthz",
+      "type": "string"
+    },
+    "kms_key_arn": {
+      "value": "arn:aws:kms:us-east-1:341056671376:key/f523eab9-83c7-4943-a553-4c76792c3bd7",
+      "type": "string"
+    },
+    "kms_key_id": {
+      "value": "f523eab9-83c7-4943-a553-4c76792c3bd7",
+      "type": "string"
+    },
+    "sns_topic_arn": {
+      "value": null,
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "aws_route53_zone",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_acm_certificate",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_acm_certificate_validation",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_ecs_cluster",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ecs:us-east-1:341056671376:cluster/samsung-logistics-cluster",
+            "configuration": [],
+            "id": "arn:aws:ecs:us-east-1:341056671376:cluster/samsung-logistics-cluster",
+            "name": "samsung-logistics-cluster",
+            "region": "us-east-1",
+            "service_connect_defaults": [],
+            "setting": [
+              {
+                "name": "containerInsights",
+                "value": "enabled"
+              }
+            ],
+            "tags": {
+              "Name": "samsung-logistics-cluster"
+            },
+            "tags_all": {
+              "Environment": "prod",
+              "ManagedBy": "Terraform",
+              "Name": "samsung-logistics-cluster",
+              "Owner": "Samsung-CT",
+              "Project": "HVDC-Logistics"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_ecs_cluster_capacity_providers",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "capacity_providers": [
+              "FARGATE",
+              "FARGATE_SPOT"
+            ],
+            "cluster_name": "samsung-logistics-cluster",
+            "default_capacity_provider_strategy": [
+              {
+                "base": 1,
+                "capacity_provider": "FARGATE",
+                "weight": 100
+              }
+            ],
+            "id": "samsung-logistics-cluster",
+            "region": "us-east-1"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_ecs_cluster.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "ecs_task_execution_role",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::341056671376:role/samsung-logistics-ecs-task-execution-role",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ecs-tasks.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-09-16T20:31:41Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "samsung-logistics-ecs-task-execution-role",
+            "inline_policy": [
+              {
+                "name": "samsung-logistics-ecs-kms-policy",
+                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"kms:Decrypt\",\"kms:DescribeKey\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:kms:us-east-1:341056671376:key/f523eab9-83c7-4943-a553-4c76792c3bd7\"}]}"
+              }
+            ],
+            "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+            ],
+            "max_session_duration": 3600,
+            "name": "samsung-logistics-ecs-task-execution-role",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {
+              "Name": "samsung-logistics-ecs-task-execution-role"
+            },
+            "tags_all": {
+              "Environment": "prod",
+              "ManagedBy": "Terraform",
+              "Name": "samsung-logistics-ecs-task-execution-role",
+              "Owner": "Samsung-CT",
+              "Project": "HVDC-Logistics"
+            },
+            "unique_id": "AROAU62EPZ2IDAAFOU4UU"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "341056671376",
+            "name": "samsung-logistics-ecs-task-execution-role"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "ecs_task_role",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::341056671376:role/samsung-logistics-ecs-task-role",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ecs-tasks.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-09-16T20:31:41Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "samsung-logistics-ecs-task-role",
+            "inline_policy": [],
+            "managed_policy_arns": [],
+            "max_session_duration": 3600,
+            "name": "samsung-logistics-ecs-task-role",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {
+              "Name": "samsung-logistics-ecs-task-role"
+            },
+            "tags_all": {
+              "Environment": "prod",
+              "ManagedBy": "Terraform",
+              "Name": "samsung-logistics-ecs-task-role",
+              "Owner": "Samsung-CT",
+              "Project": "HVDC-Logistics"
+            },
+            "unique_id": "AROAU62EPZ2ILA7POZLP3"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "341056671376",
+            "name": "samsung-logistics-ecs-task-role"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy",
+      "name": "ecs_kms_policy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "samsung-logistics-ecs-task-execution-role:samsung-logistics-ecs-kms-policy",
+            "name": "samsung-logistics-ecs-kms-policy",
+            "name_prefix": "",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"kms:Decrypt\",\"kms:DescribeKey\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:kms:us-east-1:341056671376:key/f523eab9-83c7-4943-a553-4c76792c3bd7\"}]}",
+            "role": "samsung-logistics-ecs-task-execution-role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "341056671376",
+            "name": "samsung-logistics-ecs-kms-policy",
+            "role": "samsung-logistics-ecs-task-execution-role"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.ecs_task_execution_role",
+            "aws_kms_key.logistics"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "ecs_task_execution_role_policy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "samsung-logistics-ecs-task-execution-role/arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+            "policy_arn": "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+            "role": "samsung-logistics-ecs-task-execution-role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "341056671376",
+            "policy_arn": "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+            "role": "samsung-logistics-ecs-task-execution-role"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.ecs_task_execution_role"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_kms_alias",
+      "name": "logistics",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:kms:us-east-1:341056671376:alias/samsung-logistics-mcp",
+            "id": "alias/samsung-logistics-mcp",
+            "name": "alias/samsung-logistics-mcp",
+            "name_prefix": "",
+            "region": "us-east-1",
+            "target_key_arn": "arn:aws:kms:us-east-1:341056671376:key/f523eab9-83c7-4943-a553-4c76792c3bd7",
+            "target_key_id": "f523eab9-83c7-4943-a553-4c76792c3bd7"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "341056671376",
+            "name": "alias/samsung-logistics-mcp",
+            "region": "us-east-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_kms_key.logistics"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_kms_key",
+      "name": "logistics",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:kms:us-east-1:341056671376:key/f523eab9-83c7-4943-a553-4c76792c3bd7",
+            "bypass_policy_lockout_safety_check": false,
+            "custom_key_store_id": "",
+            "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+            "deletion_window_in_days": 7,
+            "description": "KMS key for Samsung Logistics MCP Server",
+            "enable_key_rotation": true,
+            "id": "f523eab9-83c7-4943-a553-4c76792c3bd7",
+            "is_enabled": true,
+            "key_id": "f523eab9-83c7-4943-a553-4c76792c3bd7",
+            "key_usage": "ENCRYPT_DECRYPT",
+            "multi_region": false,
+            "policy": "{\"Id\":\"key-default-1\",\"Statement\":[{\"Action\":\"kms:*\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::341056671376:root\"},\"Resource\":\"*\",\"Sid\":\"Enable IAM User Permissions\"}],\"Version\":\"2012-10-17\"}",
+            "region": "us-east-1",
+            "rotation_period_in_days": 365,
+            "tags": {
+              "Name": "samsung-logistics-kms"
+            },
+            "tags_all": {
+              "Environment": "prod",
+              "ManagedBy": "Terraform",
+              "Name": "samsung-logistics-kms",
+              "Owner": "Samsung-CT",
+              "Project": "HVDC-Logistics"
+            },
+            "timeouts": null,
+            "xks_key_id": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "341056671376",
+            "id": "f523eab9-83c7-4943-a553-4c76792c3bd7",
+            "region": "us-east-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_logs": [
+              {
+                "bucket": "",
+                "enabled": false,
+                "prefix": ""
+              }
+            ],
+            "arn": "arn:aws:elasticloadbalancing:us-east-1:341056671376:loadbalancer/app/samsung-logistics-alb/0ce1885ac0c5458d",
+            "arn_suffix": "app/samsung-logistics-alb/0ce1885ac0c5458d",
+            "client_keep_alive": 3600,
+            "connection_logs": [
+              {
+                "bucket": "",
+                "enabled": false,
+                "prefix": ""
+              }
+            ],
+            "customer_owned_ipv4_pool": "",
+            "desync_mitigation_mode": "defensive",
+            "dns_name": "samsung-logistics-alb-1856106909.us-east-1.elb.amazonaws.com",
+            "dns_record_client_routing_policy": null,
+            "drop_invalid_header_fields": false,
+            "enable_cross_zone_load_balancing": true,
+            "enable_deletion_protection": true,
+            "enable_http2": true,
+            "enable_tls_version_and_cipher_suite_headers": false,
+            "enable_waf_fail_open": true,
+            "enable_xff_client_port": false,
+            "enable_zonal_shift": false,
+            "enforce_security_group_inbound_rules_on_private_link_traffic": "",
+            "id": "arn:aws:elasticloadbalancing:us-east-1:341056671376:loadbalancer/app/samsung-logistics-alb/0ce1885ac0c5458d",
+            "idle_timeout": 300,
+            "internal": false,
+            "ip_address_type": "ipv4",
+            "ipam_pools": [],
+            "load_balancer_type": "application",
+            "minimum_load_balancer_capacity": [],
+            "name": "samsung-logistics-alb",
+            "name_prefix": "",
+            "preserve_host_header": false,
+            "region": "us-east-1",
+            "secondary_ips_auto_assigned_per_subnet": null,
+            "security_groups": [
+              "sg-036b7e9f6a175de57"
+            ],
+            "subnet_mapping": [
+              {
+                "allocation_id": "",
+                "ipv6_address": "",
+                "outpost_id": "",
+                "private_ipv4_address": "",
+                "subnet_id": "subnet-02bcf66338191d9df"
+              },
+              {
+                "allocation_id": "",
+                "ipv6_address": "",
+                "outpost_id": "",
+                "private_ipv4_address": "",
+                "subnet_id": "subnet-034197c9ee667bb38"
+              }
+            ],
+            "subnets": [
+              "subnet-02bcf66338191d9df",
+              "subnet-034197c9ee667bb38"
+            ],
+            "tags": {
+              "Name": "samsung-logistics-alb"
+            },
+            "tags_all": {
+              "Environment": "prod",
+              "ManagedBy": "Terraform",
+              "Name": "samsung-logistics-alb",
+              "Owner": "Samsung-CT",
+              "Project": "HVDC-Logistics"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-085562473b18c7ebd",
+            "xff_header_processing_mode": "append",
+            "zone_id": "Z35SXDOTRQ7X7K"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:elasticloadbalancing:us-east-1:341056671376:loadbalancer/app/samsung-logistics-alb/0ce1885ac0c5458d"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "aws_security_group.alb"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb_listener",
+      "name": "http",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb_listener",
+      "name": "http_fallback",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "alpn_policy": null,
+            "arn": "arn:aws:elasticloadbalancing:us-east-1:341056671376:listener/app/samsung-logistics-alb/0ce1885ac0c5458d/42b62cc12f7c46fc",
+            "certificate_arn": null,
+            "default_action": [
+              {
+                "authenticate_cognito": [],
+                "authenticate_oidc": [],
+                "fixed_response": [],
+                "forward": [],
+                "order": 1,
+                "redirect": [],
+                "target_group_arn": "arn:aws:elasticloadbalancing:us-east-1:341056671376:targetgroup/samsung-logistics-tg/f2d02d96e8f130b8",
+                "type": "forward"
+              }
+            ],
+            "id": "arn:aws:elasticloadbalancing:us-east-1:341056671376:listener/app/samsung-logistics-alb/0ce1885ac0c5458d/42b62cc12f7c46fc",
+            "load_balancer_arn": "arn:aws:elasticloadbalancing:us-east-1:341056671376:loadbalancer/app/samsung-logistics-alb/0ce1885ac0c5458d",
+            "mutual_authentication": [],
+            "port": 80,
+            "protocol": "HTTP",
+            "region": "us-east-1",
+            "routing_http_request_x_amzn_mtls_clientcert_header_name": null,
+            "routing_http_request_x_amzn_mtls_clientcert_issuer_header_name": null,
+            "routing_http_request_x_amzn_mtls_clientcert_leaf_header_name": null,
+            "routing_http_request_x_amzn_mtls_clientcert_serial_number_header_name": null,
+            "routing_http_request_x_amzn_mtls_clientcert_subject_header_name": null,
+            "routing_http_request_x_amzn_mtls_clientcert_validity_header_name": null,
+            "routing_http_request_x_amzn_tls_cipher_suite_header_name": null,
+            "routing_http_request_x_amzn_tls_version_header_name": null,
+            "routing_http_response_access_control_allow_credentials_header_value": "",
+            "routing_http_response_access_control_allow_headers_header_value": "",
+            "routing_http_response_access_control_allow_methods_header_value": "",
+            "routing_http_response_access_control_allow_origin_header_value": "",
+            "routing_http_response_access_control_expose_headers_header_value": "",
+            "routing_http_response_access_control_max_age_header_value": "",
+            "routing_http_response_content_security_policy_header_value": "",
+            "routing_http_response_server_enabled": true,
+            "routing_http_response_strict_transport_security_header_value": "",
+            "routing_http_response_x_content_type_options_header_value": "",
+            "routing_http_response_x_frame_options_header_value": "",
+            "ssl_policy": "",
+            "tags": {},
+            "tags_all": {
+              "Environment": "prod",
+              "ManagedBy": "Terraform",
+              "Owner": "Samsung-CT",
+              "Project": "HVDC-Logistics"
+            },
+            "tcp_idle_timeout_seconds": null,
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:elasticloadbalancing:us-east-1:341056671376:listener/app/samsung-logistics-alb/0ce1885ac0c5458d/42b62cc12f7c46fc"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsInVwZGF0ZSI6MzAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "aws_lb.main",
+            "aws_lb_target_group.ecs_tasks",
+            "aws_security_group.alb"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb_listener",
+      "name": "https",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb_target_group",
+      "name": "ecs_tasks",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:elasticloadbalancing:us-east-1:341056671376:targetgroup/samsung-logistics-tg/f2d02d96e8f130b8",
+            "arn_suffix": "targetgroup/samsung-logistics-tg/f2d02d96e8f130b8",
+            "connection_termination": null,
+            "deregistration_delay": "30",
+            "health_check": [
+              {
+                "enabled": true,
+                "healthy_threshold": 2,
+                "interval": 30,
+                "matcher": "200",
+                "path": "/healthz",
+                "port": "traffic-port",
+                "protocol": "HTTP",
+                "timeout": 5,
+                "unhealthy_threshold": 3
+              }
+            ],
+            "id": "arn:aws:elasticloadbalancing:us-east-1:341056671376:targetgroup/samsung-logistics-tg/f2d02d96e8f130b8",
+            "ip_address_type": "ipv4",
+            "lambda_multi_value_headers_enabled": false,
+            "load_balancer_arns": [
+              "arn:aws:elasticloadbalancing:us-east-1:341056671376:loadbalancer/app/samsung-logistics-alb/0ce1885ac0c5458d"
+            ],
+            "load_balancing_algorithm_type": "round_robin",
+            "load_balancing_anomaly_mitigation": "off",
+            "load_balancing_cross_zone_enabled": "use_load_balancer_configuration",
+            "name": "samsung-logistics-tg",
+            "name_prefix": "",
+            "port": 3000,
+            "preserve_client_ip": null,
+            "protocol": "HTTP",
+            "protocol_version": "HTTP1",
+            "proxy_protocol_v2": false,
+            "region": "us-east-1",
+            "slow_start": 0,
+            "stickiness": [
+              {
+                "cookie_duration": 86400,
+                "cookie_name": "",
+                "enabled": false,
+                "type": "lb_cookie"
+              }
+            ],
+            "tags": {
+              "Name": "samsung-logistics-tg"
+            },
+            "tags_all": {
+              "Environment": "prod",
+              "ManagedBy": "Terraform",
+              "Name": "samsung-logistics-tg",
+              "Owner": "Samsung-CT",
+              "Project": "HVDC-Logistics"
+            },
+            "target_failover": [
+              {
+                "on_deregistration": null,
+                "on_unhealthy": null
+              }
+            ],
+            "target_group_health": [
+              {
+                "dns_failover": [
+                  {
+                    "minimum_healthy_targets_count": "1",
+                    "minimum_healthy_targets_percentage": "off"
+                  }
+                ],
+                "unhealthy_state_routing": [
+                  {
+                    "minimum_healthy_targets_count": 1,
+                    "minimum_healthy_targets_percentage": "off"
+                  }
+                ]
+              }
+            ],
+            "target_health_state": [
+              {
+                "enable_unhealthy_connection_termination": null,
+                "unhealthy_draining_interval": null
+              }
+            ],
+            "target_type": "ip",
+            "vpc_id": "vpc-085562473b18c7ebd"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:elasticloadbalancing:us-east-1:341056671376:targetgroup/samsung-logistics-tg/f2d02d96e8f130b8"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_route53_record",
+      "name": "cert_validation",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "alb",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:341056671376:security-group/sg-036b7e9f6a175de57",
+            "description": "Security group for Application Load Balancer",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "All outbound traffic",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-036b7e9f6a175de57",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "HTTP from Internet (redirect to HTTPS)",
+                "from_port": 80,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 80
+              },
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "HTTPS from Internet",
+                "from_port": 443,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 443
+              }
+            ],
+            "name": "samsung-logistics-alb-20250916195812092500000001",
+            "name_prefix": "samsung-logistics-alb-",
+            "owner_id": "341056671376",
+            "region": "us-east-1",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Name": "samsung-logistics-alb-sg"
+            },
+            "tags_all": {
+              "Environment": "prod",
+              "ManagedBy": "Terraform",
+              "Name": "samsung-logistics-alb-sg",
+              "Owner": "Samsung-CT",
+              "Project": "HVDC-Logistics"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-085562473b18c7ebd"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "341056671376",
+            "id": "sg-036b7e9f6a175de57",
+            "region": "us-east-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "ecs_tasks",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:341056671376:security-group/sg-0b203e6c90ada2b67",
+            "description": "Security group for ECS tasks",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "All outbound traffic",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-0b203e6c90ada2b67",
+            "ingress": [
+              {
+                "cidr_blocks": [],
+                "description": "HTTP from ALB",
+                "from_port": 3000,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [
+                  "sg-036b7e9f6a175de57"
+                ],
+                "self": false,
+                "to_port": 3000
+              }
+            ],
+            "name": "samsung-logistics-ecs-20250916195817389600000002",
+            "name_prefix": "samsung-logistics-ecs-",
+            "owner_id": "341056671376",
+            "region": "us-east-1",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Name": "samsung-logistics-ecs-sg"
+            },
+            "tags_all": {
+              "Environment": "prod",
+              "ManagedBy": "Terraform",
+              "Name": "samsung-logistics-ecs-sg",
+              "Owner": "Samsung-CT",
+              "Project": "HVDC-Logistics"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-085562473b18c7ebd"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "341056671376",
+            "id": "sg-0b203e6c90ada2b67",
+            "region": "us-east-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "aws_security_group.alb"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_sns_topic",
+      "name": "alerts",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "status": "tainted",
+          "schema_version": 0,
+          "attributes": {
+            "application_failure_feedback_role_arn": null,
+            "application_success_feedback_role_arn": null,
+            "application_success_feedback_sample_rate": null,
+            "archive_policy": null,
+            "arn": null,
+            "beginning_archive_time": null,
+            "content_based_deduplication": false,
+            "delivery_policy": null,
+            "display_name": null,
+            "fifo_throughput_scope": null,
+            "fifo_topic": false,
+            "firehose_failure_feedback_role_arn": null,
+            "firehose_success_feedback_role_arn": null,
+            "firehose_success_feedback_sample_rate": null,
+            "http_failure_feedback_role_arn": null,
+            "http_success_feedback_role_arn": null,
+            "http_success_feedback_sample_rate": null,
+            "id": "arn:aws:sns:us-east-1:341056671376:samsung-logistics-alerts",
+            "kms_master_key_id": null,
+            "lambda_failure_feedback_role_arn": null,
+            "lambda_success_feedback_role_arn": null,
+            "lambda_success_feedback_sample_rate": null,
+            "name": "samsung-logistics-alerts",
+            "name_prefix": null,
+            "owner": null,
+            "policy": null,
+            "region": "us-east-1",
+            "signature_version": null,
+            "sqs_failure_feedback_role_arn": null,
+            "sqs_success_feedback_role_arn": null,
+            "sqs_success_feedback_sample_rate": null,
+            "tags": {
+              "Name": "samsung-logistics-alerts"
+            },
+            "tags_all": {
+              "Environment": "prod",
+              "ManagedBy": "Terraform",
+              "Name": "samsung-logistics-alerts",
+              "Owner": "Samsung-CT",
+              "Project": "HVDC-Logistics"
+            },
+            "tracing_config": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": null
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}

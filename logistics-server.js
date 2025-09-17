@@ -96,8 +96,50 @@ class SamsungLogisticsMCPServer {
           status: 'healthy',
           timestamp: nowUTC(),
           service: 'samsung-logistics-mcp',
-          version: '1.1.0'
+          version: '1.2.0'
         }));
+        return;
+      }
+      
+      // SSE endpoint for MCP connector
+      if (url.pathname === '/sse') {
+        res.writeHead(200, {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Cache-Control'
+        });
+        
+        // Send initial connection event
+        res.write(`data: ${JSON.stringify({
+          type: 'connection',
+          timestamp: nowUTC(),
+          service: 'samsung-logistics-mcp',
+          version: '1.2.0',
+          capabilities: [
+            'invoice-ocr',
+            'container-stowage',
+            'weather-tie',
+            'eta-prediction',
+            'compliance-check'
+          ]
+        })}\n\n`);
+        
+        // Keep connection alive with periodic heartbeat
+        const heartbeat = setInterval(() => {
+          res.write(`data: ${JSON.stringify({
+            type: 'heartbeat',
+            timestamp: nowUTC(),
+            status: 'alive'
+          })}\n\n`);
+        }, 30000); // 30 seconds
+        
+        // Clean up on client disconnect
+        req.on('close', () => {
+          clearInterval(heartbeat);
+        });
+        
         return;
       }
       
@@ -106,11 +148,12 @@ class SamsungLogisticsMCPServer {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
           service: 'Samsung Logistics MCP Server',
-          version: '1.1.0',
+          version: '1.2.0',
           status: 'running',
           timestamp: nowUTC(),
           endpoints: {
             health: '/healthz',
+            sse: '/sse',
             mcp: 'stdio transport only'
           }
         }));

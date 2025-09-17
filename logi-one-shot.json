@@ -202,10 +202,49 @@
         "sns:GetTopicAttributes",
         "sns:ListTagsForResource",
         "sns:AddPermission",
-        "sns:RemovePermission",
-        "sns:SetTopicAttributes"
+        "sns:RemovePermission"
       ],
       "Resource": "arn:aws:sns:us-east-1:341056671376:samsung-logistics-alerts"
+    },
+    {
+      "Sid": "Route53DomainManagement",
+      "Effect": "Allow",
+      "Action": [
+        "route53:ListHostedZones",
+        "route53:GetHostedZone",
+        "route53:ListResourceRecordSets",
+        "route53:ChangeResourceRecordSets",
+        "route53:GetChange",
+        "route53:CreateHostedZone",
+        "route53:DeleteHostedZone"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ACMCertificateManagement",
+      "Effect": "Allow",
+      "Action": [
+        "acm:ListCertificates",
+        "acm:DescribeCertificate",
+        "acm:RequestCertificate",
+        "acm:DeleteCertificate",
+        "acm:AddTagsToCertificate",
+        "acm:ListTagsForCertificate",
+        "acm:RemoveTagsFromCertificate"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ALBAttributesManagement", 
+      "Effect": "Allow",
+      "Action": [
+        "elasticloadbalancing:ModifyLoadBalancerAttributes",
+        "elasticloadbalancing:DescribeLoadBalancerAttributes",
+        "elasticloadbalancing:CreateListener",
+        "elasticloadbalancing:ModifyListener",
+        "elasticloadbalancing:DeleteListener"
+      ],
+      "Resource": "*"
     }
   ]
 }

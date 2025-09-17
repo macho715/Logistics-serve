@@ -1,0 +1,72 @@
+﻿{
+    "executionRoleArn":  "arn:aws:iam::341056671376:role/samsung-logistics-ecs-task-execution-role",
+    "networkMode":  "awsvpc",
+    "cpu":  "512",
+    "requiresCompatibilities":  [
+                                    "FARGATE"
+                                ],
+    "containerDefinitions":  [
+                                 {
+                                     "name":  "samsung-logistics-mcp",
+                                     "image":  "341056671376.dkr.ecr.us-east-1.amazonaws.com/samsung-logistics-mcp:v1.2.0",
+                                     "cpu":  512,
+                                     "memory":  1024,
+                                     "portMappings":  [
+                                                          {
+                                                              "containerPort":  3000,
+                                                              "hostPort":  3000,
+                                                              "protocol":  "tcp"
+                                                          }
+                                                      ],
+                                     "essential":  true,
+                                     "environment":  [
+                                                         {
+                                                             "name":  "NODE_ENV",
+                                                             "value":  "prod"
+                                                         },
+                                                         {
+                                                             "name":  "AWS_REGION",
+                                                             "value":  "us-east-1"
+                                                         },
+                                                         {
+                                                             "name":  "PORT",
+                                                             "value":  "3000"
+                                                         },
+                                                         {
+                                                             "name":  "COMPLIANCE_MODE",
+                                                             "value":  "FANR,MOIAT"
+                                                         }
+                                                     ],
+                                     "mountPoints":  [
+
+                                                     ],
+                                     "volumesFrom":  [
+
+                                                     ],
+                                     "logConfiguration":  {
+                                                              "logDriver":  "awslogs",
+                                                              "options":  {
+                                                                              "awslogs-group":  "/ecs/samsung-logistics-mcp",
+                                                                              "awslogs-region":  "us-east-1",
+                                                                              "awslogs-stream-prefix":  "ecs"
+                                                                          }
+                                                          },
+                                     "healthCheck":  {
+                                                         "command":  [
+                                                                         "CMD-SHELL",
+                                                                         "curl -f http://localhost:3000/healthz || exit 1"
+                                                                     ],
+                                                         "interval":  30,
+                                                         "timeout":  5,
+                                                         "retries":  3,
+                                                         "startPeriod":  60
+                                                     },
+                                     "systemControls":  [
+
+                                                        ]
+                                 }
+                             ],
+    "family":  "samsung-logistics-mcp",
+    "taskRoleArn":  "arn:aws:iam::341056671376:role/samsung-logistics-ecs-task-role",
+    "memory":  "1024"
+}
