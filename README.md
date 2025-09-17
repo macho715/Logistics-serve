@@ -175,6 +175,43 @@ variable "desired_count" {
 - Scale-out cooldown: 5 minutes
 - Scale-in cooldown: 5 minutes
 
+## 🌐 HTTPS Access via ngrok (MCP Connector)
+
+### Mixed Content Issue Resolution
+
+For Claude Desktop MCP connector registration, use ngrok to create an HTTPS tunnel:
+
+```bash
+# Download and setup ngrok (Windows)
+# 1. Download ngrok 3.28.0+ from https://ngrok.com/download
+# 2. Add authtoken
+ngrok config add-authtoken <your-authtoken>
+
+# 3. Create HTTPS tunnel to ALB
+ngrok http samsung-logistics-alb-1856106909.us-east-1.elb.amazonaws.com:80 \
+  --host-header=rewrite \
+  --inspect=false \
+  --request-header-add "ngrok-skip-browser-warning:true" \
+  --log=stdout
+```
+
+### MCP Connector Registration
+
+Use the ngrok HTTPS URL in Claude Desktop:
+
+- **MCP Server URL**: `https://<random>.ngrok-free.app/sse`
+- **Authentication**: None
+- **Trust**: ✓ Checked
+
+### SSE Endpoint Testing
+
+```bash
+# Test SSE stream through ngrok
+curl -N -H "Accept: text/event-stream" \
+     -H "ngrok-skip-browser-warning: true" \
+     "https://<random>.ngrok-free.app/sse"
+```
+
 ## 🚨 Troubleshooting
 
 ### Common Issues
@@ -188,12 +225,17 @@ variable "desired_count" {
    aws elbv2 describe-target-health --target-group-arn <target-group-arn>
    ```
 
-2. **High CPU/Memory usage**
+2. **MCP Connector Creation Error**
+   - **Cause**: Mixed Content blocking (HTTPS page → HTTP endpoint)
+   - **Solution**: Use ngrok HTTPS tunnel as shown above
+   - **Verify**: Check browser DevTools console for Mixed Content errors
+
+3. **High CPU/Memory usage**
    - Check CloudWatch metrics
    - Review application logs for performance issues
    - Consider increasing task resources
 
-3. **Deployment failures**
+4. **Deployment failures**
    - Verify ECR repository exists
    - Check AWS credentials and permissions
    - Review Terraform state for conflicts
@@ -258,5 +300,19 @@ For support and questions:
 
 ---
 
-**Samsung C&T Logistics MCP Server v1.1.0**  
+**Samsung C&T Logistics MCP Server v1.2.0**  
 *HVDC Project - ADNOC·DSV Partnership*
+
+## 🎯 Latest Updates (v1.2.0)
+
+### ✅ Mixed Content Resolution
+- **ngrok HTTPS tunnel** setup for Claude Desktop compatibility
+- **SSE endpoint** (`/sse`) for MCP connector streaming
+- **Enhanced security** with HTTPS-only access
+- **Browser warning bypass** configuration
+
+### 🚀 Current Deployment Status
+- **ALB URL**: `http://samsung-logistics-alb-1856106909.us-east-1.elb.amazonaws.com`
+- **ngrok HTTPS**: `https://97045cb6fbf5.ngrok-free.app/sse` (example)
+- **Health Status**: ✅ All systems operational
+- **ECS Tasks**: 2/2 healthy targets
